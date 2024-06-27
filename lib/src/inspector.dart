@@ -125,7 +125,7 @@ class InspectorState extends State<Inspector> {
   final _selectedColorStateNotifier = ValueNotifier<Color?>(null);
 
   final _zoomImageOffsetNotifier = ValueNotifier<Offset?>(null);
-  final _zoomScaleNotifier = ValueNotifier<double>(2.0);
+  final _zoomScaleNotifier = ValueNotifier<double>(4.0);
   final _zoomOverlayOffsetNotifier = ValueNotifier<Offset?>(null);
 
   late final KeyboardHandler _keyboardHandler;
@@ -275,7 +275,7 @@ class InspectorState extends State<Inspector> {
     if (isEnabled) {
       _onInspectorStateChanged(false);
       _onColorPickerStateChanged(false);
-      _zoomScaleNotifier.value = 2.0;
+      _zoomScaleNotifier.value = 4.0;
 
       WidgetsBinding.instance.addPostFrameCallback((_) async {
         await _extractByteData();
@@ -291,7 +291,7 @@ class InspectorState extends State<Inspector> {
 
       _zoomImageOffsetNotifier.value = null;
       _zoomOverlayOffsetNotifier.value = null;
-      _zoomScaleNotifier.value = 2.0;
+      _zoomScaleNotifier.value = 4.0;
     }
   }
 
