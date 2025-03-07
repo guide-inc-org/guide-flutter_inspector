@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import '../inspector/box_info.dart';
 import 'box_info_panel_widget.dart';
 import 'information_box_widget.dart';
@@ -63,11 +64,13 @@ class BoxInfoWidget extends StatelessWidget {
         ),
         // ..._buildPaddingWidgets(context),
         _buildTargetBoxSizeWidget(context),
-        Align(
-          alignment: Alignment.bottomCenter,
-          child: Padding(
-            padding: const EdgeInsets.all(12.0),
-            child: _buildTargetBoxInfoPanel(context),
+        SafeArea(
+          child: Align(
+            alignment: Alignment.bottomCenter,
+            child: Padding(
+              padding: const EdgeInsets.all(12.0),
+              child: _buildTargetBoxInfoPanel(context),
+            ),
           ),
         ),
       ],

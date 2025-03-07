@@ -30,7 +30,11 @@ class BoxInfoPanelWidget extends StatelessWidget {
     Color? backgroundColor,
   }) {
     final theme = Theme.of(context);
-
+    double? maxWidth;
+    if (boxInfo.targetRenderBox is RenderDecoratedBox) {
+      final _renderDecoratedBox = boxInfo.targetRenderBox as RenderDecoratedBox;
+      maxWidth = _renderDecoratedBox.size.width - 38;
+    }
     Widget _child = Row(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -43,7 +47,12 @@ class BoxInfoPanelWidget extends StatelessWidget {
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            child,
+            maxWidth != null
+                ? ConstrainedBox(
+                    child: child,
+                    constraints: BoxConstraints(maxWidth: maxWidth),
+                  )
+                : child,
             const SizedBox(height: 0.0),
             Text(
               subtitle,
@@ -106,6 +115,7 @@ class BoxInfoPanelWidget extends StatelessWidget {
     return Wrap(
       spacing: 12.0,
       runSpacing: 8.0,
+      direction: Axis.vertical,
       children: [
         _buildInfoRow(
           context,
