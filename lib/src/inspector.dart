@@ -134,6 +134,7 @@ class InspectorState extends State<Inspector> {
   late final KeyboardHandler _keyboardHandler;
 
   Offset? _pointerHoverPosition;
+  Offset? _boxInfoCurrentTabPosition;
 
   @override
   void initState() {
@@ -170,10 +171,11 @@ class InspectorState extends State<Inspector> {
       _onZoomStateChanged(false);
       return;
     }
+    _boxInfoCurrentTabPosition = pointerOffset;
+
     if (!_inspectorStateNotifier.value) {
       return;
     }
-
     if (pointerOffset == null) return;
 
     final boxes = InspectorUtils.onTap(
@@ -458,8 +460,8 @@ class InspectorState extends State<Inspector> {
               if (offset == null || color == null) {
                 return const SizedBox.shrink();
               }
-              final leftGap = 32.0;
-              final topGap = 64.0;
+              const leftGap = 32.0;
+              const topGap = 64.0;
               var left = offset.dx + leftGap;
               var top = offset.dy - topGap;
               if (left + ColorPickerOverlay.size > screenSize.width) {
@@ -485,12 +487,21 @@ class InspectorState extends State<Inspector> {
               _zoomStateNotifier,
             ],
             builder: (context) => LayoutBuilder(
-              builder: (context, constraints) => _inspectorStateNotifier.value
-                  ? InspectorOverlay(
-                      size: constraints.biggest,
-                      boxInfo: _currentRenderBoxNotifier.value,
-                    )
-                  : const SizedBox.shrink(),
+              builder: (context, constraints) {
+                var align = Alignment.bottomCenter;
+                final halfScreenDy = screenSize.height / 2;
+                if (_boxInfoCurrentTabPosition != null &&
+                    _boxInfoCurrentTabPosition!.dy > halfScreenDy) {
+                  align = Alignment.topCenter;
+                }
+                return _inspectorStateNotifier.value
+                    ? InspectorOverlay(
+                        size: constraints.biggest,
+                        boxInfo: _currentRenderBoxNotifier.value,
+                        alignmentGeometry: align,
+                      )
+                    : const SizedBox.shrink();
+              },
             ),
           ),
         if (widget.isZoomEnabled)

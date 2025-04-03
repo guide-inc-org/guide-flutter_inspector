@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import '../components/box_info_widget.dart';
 import 'box_info.dart';
 
@@ -7,10 +8,12 @@ class InspectorOverlay extends StatefulWidget {
     Key? key,
     required this.size,
     required this.boxInfo,
+    required this.alignmentGeometry,
   }) : super(key: key);
 
   final Size size;
   final BoxInfo? boxInfo;
+  final AlignmentGeometry? alignmentGeometry;
 
   @override
   _InspectorOverlayState createState() => _InspectorOverlayState();
@@ -58,6 +61,7 @@ class _InspectorOverlayState extends State<InspectorOverlay> {
           boxInfo: widget.boxInfo!,
           isPanelVisible: isVisible,
           onPanelVisibilityChanged: (v) => _panelVisibilityNotifier.value = v,
+          alignmentGeometry: widget.alignmentGeometry,
         ),
       ),
     );

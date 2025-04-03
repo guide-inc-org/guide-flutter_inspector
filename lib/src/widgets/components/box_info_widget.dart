@@ -11,14 +11,17 @@ class BoxInfoWidget extends StatelessWidget {
     required this.boxInfo,
     required this.isPanelVisible,
     required this.onPanelVisibilityChanged,
+    required this.alignmentGeometry,
   }) : super(key: key);
 
   final BoxInfo boxInfo;
+  final AlignmentGeometry? alignmentGeometry;
 
   final bool isPanelVisible;
   final ValueChanged<bool> onPanelVisibilityChanged;
 
   Color get _targetColor => Colors.blue.shade700;
+
   Color get _containerColor => Colors.yellow.shade700;
 
   Widget _buildTargetBoxSizeWidget(BuildContext context) {
@@ -66,7 +69,7 @@ class BoxInfoWidget extends StatelessWidget {
         _buildTargetBoxSizeWidget(context),
         SafeArea(
           child: Align(
-            alignment: Alignment.bottomCenter,
+            alignment: alignmentGeometry ?? Alignment.bottomCenter,
             child: Padding(
               padding: const EdgeInsets.all(12.0),
               child: _buildTargetBoxInfoPanel(context),
