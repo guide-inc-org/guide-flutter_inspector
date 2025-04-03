@@ -33,7 +33,9 @@ class _InspectorPanelState extends State<InspectorPanel> {
   bool _isVisible = true;
 
   bool get _isInspectorEnabled => widget.onInspectorStateChanged != null;
+
   bool get _isColorPickerEnabled => widget.onColorPickerStateChanged != null;
+
   bool get _isZoomEnabled => widget.onZoomStateChanged != null;
 
   void _toggleVisibility() {

@@ -8,6 +8,7 @@ void showColorPickerResultSnackbar({
   required Color color,
 }) {
   final colorString = '#${colorToHexString(color)}';
+  final colorStringWithAlpha = '#${colorToHexString(color, withAlpha: true)}';
 
   ScaffoldMessenger.of(context).clearSnackBars();
 
@@ -24,7 +25,7 @@ void showColorPickerResultSnackbar({
             ),
           ),
           const SizedBox(width: 8.0),
-          Text('Color: $colorString'),
+          Text('Color: $colorString (withAlpha: $colorStringWithAlpha)'),
         ],
       ),
       action: SnackBarAction(

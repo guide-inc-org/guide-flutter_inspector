@@ -1,8 +1,7 @@
 import 'dart:async';
-
-import 'package:flutter/material.dart';
 import 'dart:ui' as ui;
 
+import 'package:flutter/material.dart';
 import 'package:inspector/src/widgets/components/information_box_widget.dart';
 
 class ZoomOverlayWidget extends StatelessWidget {
@@ -14,6 +13,7 @@ class ZoomOverlayWidget extends StatelessWidget {
     required this.overlaySize,
     required this.zoomScale,
     required this.pixelRatio,
+    this.enableAimingPoint = false,
   }) : super(key: key);
 
   final ui.Image image;
@@ -22,6 +22,7 @@ class ZoomOverlayWidget extends StatelessWidget {
   final double overlaySize;
   final double zoomScale;
   final double pixelRatio;
+  final bool enableAimingPoint;
 
   @override
   Widget build(BuildContext context) {
@@ -67,6 +68,21 @@ class ZoomOverlayWidget extends StatelessWidget {
               child: _ZoomLevelDisplay(zoomScale: zoomScale),
             ),
           ),
+          if (enableAimingPoint)
+            Center(
+              child: Container(
+                width: 5,
+                height: 5,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  border: Border.all(
+                    color: Theme.of(context).colorScheme.inverseSurface,
+                    width: 2.0,
+                    strokeAlign: BorderSide.strokeAlignOutside,
+                  ),
+                ),
+              ),
+            )
         ],
       ),
     );

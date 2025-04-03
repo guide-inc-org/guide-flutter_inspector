@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'utils.dart';
 
 class ColorPickerOverlay extends StatelessWidget {
+  static const double size = 56.0;
+
   const ColorPickerOverlay({
     Key? key,
     required this.color,
@@ -13,10 +15,11 @@ class ColorPickerOverlay extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 56.0,
-      height: 56.0,
+      width: size,
+      height: size,
       decoration: BoxDecoration(
         color: color,
+        border: Border.all(color: Colors.white),
         borderRadius: BorderRadius.circular(4.0),
         boxShadow: const [
           BoxShadow(

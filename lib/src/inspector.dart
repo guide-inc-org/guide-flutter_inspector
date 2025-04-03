@@ -6,11 +6,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:inspector/src/keyboard_handler.dart';
+import 'package:inspector/src/widgets/color_picker/color_picker_overlay.dart';
 import 'package:inspector/src/widgets/zoom/zoom_overlay.dart';
 
 import './widgets/panel/inspector_panel.dart';
 import 'utils.dart';
-import 'widgets/color_picker/color_picker_overlay.dart';
 import 'widgets/color_picker/color_picker_snackbar.dart';
 import 'widgets/color_picker/utils.dart';
 import 'widgets/inspector/box_info.dart';
@@ -48,6 +48,7 @@ class Inspector extends StatefulWidget {
     this.isPanelVisible = true,
     this.isWidgetInspectorEnabled = true,
     this.isColorPickerEnabled = true,
+    this.isColorPickerZoomEnabled = true,
     this.isZoomEnabled = true,
     this.widgetInspectorShortcuts = const [
       LogicalKeyboardKey.alt,
@@ -73,6 +74,7 @@ class Inspector extends StatefulWidget {
   final bool isPanelVisible;
   final bool isWidgetInspectorEnabled;
   final bool isColorPickerEnabled;
+  final bool isColorPickerZoomEnabled;
   final bool isZoomEnabled;
   final Alignment alignment;
   final List<LogicalKeyboardKey> widgetInspectorShortcuts;
@@ -103,6 +105,7 @@ class Inspector extends StatefulWidget {
 
 class InspectorState extends State<Inspector> {
   bool _isPanelVisible = false;
+
   bool get isPanelVisible => _isPanelVisible;
 
   void togglePanelVisibility() =>
@@ -167,7 +170,6 @@ class InspectorState extends State<Inspector> {
       _onZoomStateChanged(false);
       return;
     }
-
     if (!_inspectorStateNotifier.value) {
       return;
     }
@@ -263,7 +265,6 @@ class InspectorState extends State<Inspector> {
   }
 
   // Zoom
-
   void _onZoomStateChanged(bool isEnabled) {
     if (!widget.isZoomEnabled) {
       _zoomStateNotifier.value = false;
@@ -402,7 +403,7 @@ class InspectorState extends State<Inspector> {
     if (!_isEnabled) {
       return widget.child;
     }
-
+    final screenSize = MediaQuery.of(context).size;
     return Stack(
       key: _stackKey,
       children: [
@@ -457,10 +458,19 @@ class InspectorState extends State<Inspector> {
               if (offset == null || color == null) {
                 return const SizedBox.shrink();
               }
-
+              final leftGap = 32.0;
+              final topGap = 64.0;
+              var left = offset.dx + leftGap;
+              var top = offset.dy - topGap;
+              if (left + ColorPickerOverlay.size > screenSize.width) {
+                left = offset.dx - leftGap - ColorPickerOverlay.size;
+              }
+              if (top < 0) {
+                top = 0;
+              }
               return Positioned(
-                left: offset.dx + 8.0,
-                top: offset.dy - 64.0,
+                left: left,
+                top: top,
                 child: ColorPickerOverlay(
                   color: color,
                 ),
