@@ -208,10 +208,27 @@ class BoxInfoPanelWidget extends StatelessWidget {
           icon: Icons.line_weight,
           subtitle: 'weight',
           backgroundColor: theme.chipTheme.backgroundColor,
-          child: Text(style.fontWeight?.toString() ?? 'n/a'),
+          child: Text(
+            fontWeightParse(style.fontWeight?.index) ?? 'n/a',
+          ),
         ),
       ],
     );
+  }
+
+  String? fontWeightParse(int? index) {
+    if (index == null) return null;
+    return <int, String>{
+      0: 'FontWeight.w100',
+      1: 'FontWeight.w200',
+      2: 'FontWeight.w300',
+      3: 'FontWeight.w400',
+      4: 'FontWeight.w500',
+      5: 'FontWeight.w600',
+      6: 'FontWeight.w700',
+      7: 'FontWeight.w800',
+      8: 'FontWeight.w900',
+    }[index];
   }
 
   @override
